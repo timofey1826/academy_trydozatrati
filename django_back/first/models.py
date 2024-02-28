@@ -16,18 +16,26 @@ class Task(models.Model):
     description = models.CharField(max_length=800)
 
 
-class Users(models.Model):
+class User(models.Model):
     job_title_id = models.ForeignKey(JobTitle, on_delete=models.PROTECT)
     age = models.IntegerField(default=0)
     first_name = models.CharField(max_length=800)
     last_name = models.CharField(max_length=800)
     father_name = models.CharField(max_length=800)
+    login = models.CharField(max_length=100)
+    password = models.CharField(max_length=100)
 
 
 class WorkOnTask(models.Model):
-    user_id = models.ForeignKey(Users, on_delete=models.PROTECT)
+    user_id = models.ForeignKey(User, on_delete=models.PROTECT)
     project_id = models.ForeignKey(Project, on_delete=models.PROTECT)
     task_id = models.ForeignKey(Task, on_delete=models.PROTECT)
     work_date = models.DateField()
     work_time = models.IntegerField(default=0)
+
+
+class UserWithTask:
+    user_id = models.ForeignKey(User, on_delete=models.PROTECT)
+    task_id = models.ForeignKey(Task, on_delete=models.PROTECT)
+    status = models.CharField(max_length=800)
 
