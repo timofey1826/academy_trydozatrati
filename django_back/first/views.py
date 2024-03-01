@@ -10,43 +10,38 @@ from .serializer import UsersSerializer, JobTitleSerializer
 def index(request):
     return HttpResponse("")
 @api_view(['GET', 'POST', 'DELETE'])
-def usersManaging(request):
+def usersManaging(request,id):
     if request.method == 'GET':
-        tutorials = User.objects.all()
-        title = request.GET.get('title', None)
-        if title is not None:
-            tutorials = tutorials.filter(title__icontains=title)
+        user = User.objects.all().filter(id = id)
+        user_serializer = UsersSerializer(user[0])
+        return JsonResponse(user_serializer.data, safe=False)
 
-        tutorials_serializer = UsersSerializer(tutorials, many=True)
-        return JsonResponse(tutorials_serializer.data, safe=False)
     elif request.method == 'POST':
         user_data = JSONParser().parse(request)
-    tutorial_serializer = UsersSerializer(data=user_data)
-    if tutorial_serializer.is_valid():
-        tutorial_serializer.save()
-        return JsonResponse(tutorial_serializer.data, status=200)
-    return JsonResponse(tutorial_serializer.errors, status=400)
+        user_serializer = UsersSerializer(data=user_data)
+        if user_serializer.is_valid():
+            user_serializer.save()
+            return JsonResponse(user_serializer.data, status=200)
+        return JsonResponse(user_serializer.errors, status=400)
 
 
 @api_view(['GET', 'POST', 'DELETE'])
-def getJobTitle(request,pk):
-    tutorial = JobTitle.objects.filter(id = pk)
-    print(tutorial)
+def getJobTitle(request,id):
+    job = JobTitle.objects.all().filter(id = id)
     if request.method == 'GET':
         try:
-            tutorial_serializer = JobTitleSerializer(tutorial[0])
-            print(tutorial_serializer.data)
-            return JsonResponse(tutorial_serializer.data, safe=False)
+            job_serializer = JobTitleSerializer(job[0])
+            return JsonResponse(job_serializer.data, safe=False)
         except JobTitle.DoesNotExist:
-            return JsonResponse({'message': 'The tutorial does not exist'}, status=404)
+            return JsonResponse({'message': 'The job_title does not exist'}, status=404)
 
     elif request.method == 'POST':
         user_data = JSONParser().parse(request)
-        tutorial_serializer = JobTitleSerializer(data=user_data)
-        if tutorial_serializer.is_valid():
-            tutorial_serializer.save()
-            return JsonResponse(tutorial_serializer.data, status=200)
-        return JsonResponse(tutorial_serializer.errors, status=400)
+        job_serializer = JobTitleSerializer(data=user_data)
+        if job_serializer.is_valid():
+            job_serializer.save()
+            return JsonResponse(job_serializer.data, status=200)
+        return JsonResponse(job_serializer.errors, status=400)
 
 @api_view(['GET', 'POST', 'DELETE'])
 def ProjectsCRUD(request,pk):
