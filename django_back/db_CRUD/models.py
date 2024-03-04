@@ -26,16 +26,10 @@ class User(models.Model):
     password = models.CharField(max_length=100)
 
 
-class WorkOnTask(models.Model):
-    user_id = models.ForeignKey(User, on_delete=models.PROTECT)
-    project_id = models.ForeignKey(Project, on_delete=models.PROTECT)
-    task_id = models.ForeignKey(Task, on_delete=models.PROTECT)
-    work_date = models.DateField()
-    work_time = models.IntegerField(default=0)
-
-
-class UserWithTask:
+class UserWithTask(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.PROTECT)
     task_id = models.ForeignKey(Task, on_delete=models.PROTECT)
     status = models.CharField(max_length=800)
+    work_date = models.DateField(null=True)
+    work_time = models.IntegerField(null=True)
 
