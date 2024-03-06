@@ -40,6 +40,7 @@ class UserWithTaskSerializer(serializers.ModelSerializer):
         model = UserWithTask
         fields = ('id',
                   'user_id',
+                  'project_id',
                   'task_id',
                   'status',
                   'work_date',

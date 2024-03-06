@@ -18,3 +18,5 @@ def db_get(objects = [],Serializer = UsersSerializer(),curent_class = User()):
 
     except curent_class.DoesNotExist:
         return JsonResponse({'message': 'The job_title does not exist'}, status=404)
+
+# def db_create

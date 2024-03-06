@@ -29,6 +29,7 @@ class User(models.Model):
 class UserWithTask(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.PROTECT)
     task_id = models.ForeignKey(Task, on_delete=models.PROTECT)
+    project_id = models.ForeignKey(Project, on_delete=models.PROTECT)
     status = models.CharField(max_length=800)
     work_date = models.DateField(null=True)
     work_time = models.IntegerField(null=True)

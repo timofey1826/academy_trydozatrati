@@ -34,13 +34,13 @@ def job_title_managing(request,id):
     if request.method == 'GET':
         return db_get(job,JobTitleSerializer,JobTitle)
 
-    # elif request.method == 'POST':
-    #     user_data = JSONParser().parse(request)
-    #     job_serializer = JobTitleSerializer(data=user_data)
-    #     if job_serializer.is_valid():
-    #         job_serializer.save()
-    #         return JsonResponse(job_serializer.data, status=200)
-    #     return JsonResponse(job_serializer.errors, status=400)
+    elif request.method == 'POST':
+        user_data = JSONParser().parse(request)
+        job_serializer = JobTitleSerializer(data=user_data)
+        if job_serializer.is_valid():
+            job_serializer.save()
+            return JsonResponse(job_serializer.data, status=200)
+        return JsonResponse(job_serializer.errors, status=400)
 
 
 @api_view(['GET', 'POST', 'DELETE'])
