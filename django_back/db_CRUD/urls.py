@@ -1,8 +1,13 @@
 from django.urls import path
 
-from . import views
+from . import views, specific_commands
 
 urlpatterns = [
-    path("users/<id>",views.usersManaging),
-    path("get_job_title/<id>",views.getJobTitle)
+    path("user/<id>",views.user_managing),
+    path("get_job_title/<id>",views.job_title_managing),
+    path("project/<id>",views.project_managing),
+    path("task/<id>",views.task_managing),
+
+    path("all_task", specific_commands.get_all_tasks),
+    path("all_user_task/<user_id>", specific_commands.get_all_user_task)
 ]
