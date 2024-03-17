@@ -2,9 +2,6 @@ from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponse, JsonResponse
 from rest_framework.decorators import api_view
 from rest_framework.parsers import JSONParser
-from rest_framework.response import Response
-from rest_framework_simplejwt.tokens import RefreshToken
-from rest_framework_simplejwt.views import TokenObtainPairView
 
 from .models import User, JobTitle, Project, Task, UserWithTask
 from .serializer import UsersSerializer, JobTitleSerializer, ProjectSerializer, TaskSerializer, UserWithTaskSerializer
@@ -64,32 +61,3 @@ def user_with_task_managing(request,id):
     if request.method == 'GET':
         return db_get(user_with_task, UserWithTaskSerializer, UserWithTask)
 
-
-class TokenObtainPairViewModified(TokenObtainPairView):
-    def post(self, request):
-        # Получаем данные запроса
-        login = request.data.get('login')
-        password = request.data.get('password')
-
-        # Проверяем наличие пользователя с указанным логином
-        try:
-            user = User.objects.get(login=login)
-        except User.DoesNotExist:
-            return Response({'error': 'Неверный логин'}, status=400)
-
-        # Проверяем правильность введенного пароля
-        if user.password != password:
-            return Response({'error': 'Неверный пароль'}, status=400)
-
-        # Генерируем и возвращаем JWT-токен
-        serializer = UsersSerializer(user)
-        refresh = RefreshToken.for_user(user)
-
-        token_response = {
-            'access': str(refresh.access_token),
-            'refresh': str(refresh)
-        }
-        # Отправляем токен в качестве ответа
-        response = Response(token_response, status=200)
-
-        return response

@@ -9,7 +9,7 @@ from .basic_db_command import db_get
 
 
 @api_view(['GET', 'POST', 'DELETE'])
-def get_all_tasks(request):
+def get_all_job_titles(request):
 
     job_title = JobTitle.objects.all()
     if request.method == 'GET':
