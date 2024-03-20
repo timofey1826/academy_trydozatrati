@@ -1,5 +1,4 @@
 from django.urls import path
-from rest_framework_simplejwt.views import TokenVerifyView, TokenRefreshView, TokenObtainPairView
 
 from . import views, specific_commands
 
@@ -11,4 +10,8 @@ urlpatterns = [
 
     path("all_job_titles", specific_commands.get_all_job_titles),
     path("all_user_task/<user_id>", specific_commands.get_all_user_task),
+
+    path('users/create',specific_commands.RegisterView.as_view()),#для регистрации пользователей
+    path("users/login",specific_commands.LoginView.as_view()),#дяя входина
+    path("users/auth",specific_commands.UserView.as_view()),
 ]
